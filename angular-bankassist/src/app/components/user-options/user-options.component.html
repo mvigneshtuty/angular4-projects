@@ -1,0 +1,27 @@
+<div *ngIf="userId !=='' && isUserVerified !== 'false'; else accessError">
+<h3>Hi {{userId}} ! Enroll or Authenticate using your Voice</h3>
+
+<div id="options" class="grid grid-pad">
+  <a class="col-1-4" routerLink="/user/enroll">
+    <div class="module">
+      <h4>Enrollment</h4>
+    </div>
+  </a>
+  <a class="col-1-4" routerLink="/user/authenticate">
+    <div class="module">
+      <h4>Authentication</h4>
+    </div>
+  </a>
+</div>
+</div>
+
+  <ng-template #accessError>
+    <h3>Hi ! It seems you have not verified the userId</h3>
+    <div id="options" class="grid grid-pad">
+    <a class="col-1-4" routerLink="/user/verify">
+      <div class="module">
+        <h4>Verify User</h4>
+      </div>
+    </a>
+    </div>
+  </ng-template>

@@ -1,0 +1,10 @@
+<div *ngIf="user">
+  <div>
+    <label>
+      User ID:
+      <input [(ngModel)]="user.id" placeholder="User Id">
+    </label>
+    <button (click)="continue()">continue</button>
+  </div>
+</div>
+<!--<button (click)="save()">save</button>-->

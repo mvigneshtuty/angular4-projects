@@ -1,0 +1,43 @@
+  <div class="container-fluid">
+  <h1>User Details</h1>
+  <form (ngSubmit)="createUser()" #createUserForm="ngForm">
+  <div class="row">
+    <label hidden for="userid">UserId</label>
+    <div class="col-centered col-lg-3">
+      <input type="text" id="userid" required minlength="6" maxlength="10" pattern="[a-zA-Z0-9]*" [(ngModel)]="voiceitUser.userId" name="userId" #userid="ngModel" 
+      class="form-control form-control-lg" placeholder="User ID">
+      <div *ngIf="!userid.valid && userid.touched" class="alert alert-danger">
+        <div *ngIf="userid.errors.required">User ID is required</div>
+        <div *ngIf="userid.errors.minlength">User ID should be minimum {{userid.errors.minlength.requiredLength}} characters</div>
+        <div *ngIf="userid.errors.pattern">User ID can contain only alpha numeric characters [a-zA-Z0-9]</div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <label hidden for="password">Password</label>
+    <div class="col-centered col-lg-3">
+      <input type="password" id="password" required minlength="8" pattern="^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@#$%^&*()_+]{7,19}$" [(ngModel)]="voiceitUser.password" name="password" #pwd="ngModel" 
+      class="form-control form-control-lg" placeholder="Password">
+      <div *ngIf="!pwd.valid && pwd.touched" class="alert alert-danger">
+        <div *ngIf="pwd.errors.required">Password is required</div>
+        <div *ngIf="pwd.errors.minlength">Password should be minimum {{pwd.errors.minlength.requiredLength}} characters</div>
+        <div *ngIf="pwd.errors.pattern">Password should contain atleast one special character and number</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <label hidden for="confirmpwd">Confirm Password</label>
+    <div class="col-centered col-lg-3">
+      <input type="password" id="confirmpwd" required [(ngModel)]="voiceitUser.confirmPwd" name="confirmpwd" #confpwd="ngModel"
+        class="form-control form-control-lg" placeholder="Confirm Password" passwordChecker>
+      <div *ngIf="!confpwd.valid && confpwd.touched" class="alert alert-danger">
+       <!-- <p *ngIf="confpwd.errors.passwordChecker">Confirm Password didn't match</p> -->
+        You need to confirm the password
+      </div>
+    </div>
+  </div>
+  <button id="submitBtn" type="submit" class="btn btn-success btn-lg" [disabled]="!createUserForm.form.valid">Create User</button>
+  </form>
+  </div>
+  <span>TODO: remove this: {{voiceitUser.userId}} , {{voiceitUser.password}}</span>

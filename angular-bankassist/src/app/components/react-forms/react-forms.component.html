@@ -1,0 +1,28 @@
+<form [formGroup] = "createUserForm">
+  <div class="form-group">
+    <label for="username">Username</label>
+    <input 
+    formControlName="username"
+    id="username" 
+    type="text" 
+    class="form-control">
+    <div *ngIf="getUserName.invalid && getUserName.touched" class="alert alert-danger">
+      <div *ngIf="getUserName.errors.required">User Name is required</div>
+      <div *ngIf="getUserName.errors.minlength">User Name should be minimum {{getUserName.errors.minlength.requiredLength}} characters</div>
+      <div *ngIf="getUserName.errors.pattern">User Name can contain only alpha numeric characters [a-zA-Z0-9]</div>
+      <div *ngIf="getUserName.errors.containsSpace">User Name cannot contain space</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input 
+    formControlName="password"
+    id="password" 
+    type="text" 
+    class="form-control">
+    <div *ngIf="getPassword.touched && getPassword.invalid" class="alert alert-danger">
+      Password is required
+    </div>
+  </div>
+  <button class="btn btn-primary" type="submit">Sign Up</button>
+</form>

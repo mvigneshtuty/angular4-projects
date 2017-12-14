@@ -1,0 +1,13 @@
+input, button {
+  color: black;
+  font-family: Cambria, Georgia;
+}
+
+label{
+    color:crimson;
+    font-family: Cambria, Georgia;
+}
+
+#verify-user{
+  padding-top: 1cm;
+}

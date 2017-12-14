@@ -1,0 +1,6 @@
+<div id="info-message" *ngIf="infoMsgService.messages.length">
+
+  <h2>Info</h2>
+  <div *ngFor='let message of infoMsgService.messages'> {{message}} </div>
+
+</div>

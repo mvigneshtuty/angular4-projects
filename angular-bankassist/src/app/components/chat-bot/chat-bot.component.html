@@ -1,0 +1,36 @@
+<!--<div *ngIf="userId !=='' && isUserVerified !== 'false'; else accessError" style="text-align:center">-->
+  <div  style="text-align:center">
+
+  <h1>Welcome {{userId}}!</h1>
+  <p>You can now start the conversation with BankAssist by clicking the below icon</p>
+  <div class="audio-control">
+    <p id="audio-control" class="white-circle">
+      <img src="../../assets/lex.png">
+      <canvas id="visualizer" class="visualizer"></canvas>
+    </p>
+    <p>
+      <span id="message"></span>
+    </p>
+    <p>
+      <input type="hidden" id="ACCESS_KEY_ID" name="ACCESS KEY ID" placeholder="Access Key Id" />
+    </p>
+    <p>
+      <input type="hidden" id="SECRET_KEY" name="SECRET KEY" placeholder="Secret Key" />
+    </p>
+    <p>
+      <input type="hidden" id="BOT" name="BOT" placeholder="Bot Name" />
+    </p>
+  </div>
+
+</div>
+
+<ng-template #accessError>
+  <h3>Hi ! It seems you have not verified the userId</h3>
+  <div id="options" class="grid grid-pad">
+    <a class="col-1-4" routerLink="/user/verify">
+      <div class="module">
+        <h4>Verify User</h4>
+      </div>
+    </a>
+  </div>
+</ng-template>

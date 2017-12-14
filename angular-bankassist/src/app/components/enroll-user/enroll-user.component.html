@@ -1,0 +1,64 @@
+<div *ngIf="userId !=='' && isUserVerified !== 'false'; else accessError" style="text-align:center">
+<h1>Voice Enrollment</h1>
+
+<p>Make sure you are using a recent version of Google Chrome</p>
+<p>Click on Record button and tell the voice phrase. For example "Hello, Iam very happy today".</p>
+<p>Then click on Stop button to enroll your voice.</p>
+<!--
+<div id="viz">
+  <canvas #analyser width="100" height="100"></canvas>
+  <canvas id="wavedisplay" width="100" height="100"></canvas>
+</div>
+-->
+<button (click)="startRecording();" [disabled]="isRecording">Record</button>
+<button (click)="stopRecording();" [disabled]="!(isRecording)">Stop</button>
+<div *ngIf="ENROLL_SAMPLES.length > 0">
+<h2>Enrollment Details</h2>
+<table class="table table-sm table-bordered">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Enrollment Sample</th>
+      <th scope="col">Enrollment ID</th>
+      <th scope="col">Enroll Status</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let enroll of ENROLL_SAMPLES; let i = index;">
+      <th scope="row">{{i+1}}</th>
+      <td>
+        <audio controls [src]="enroll.wavObjUrl | goSafe" type="audio/wav"></audio>
+      </td>
+      <td>{{enroll.enrollId}}</td>
+      <td>{{enroll.status}}</td>
+      <td>
+        <button title="enroll this voice sample" (click)="enrollVoiceSample(enroll)">Enroll</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<!--
+<ul id="recordingslist">
+  <li *ngFor="let enroll of ENROLL_SAMPLES">
+    <audio controls [src]="enroll.wavObjUrl | goSafe" type="audio/wav"></audio>
+    <a href={{enroll.wavObjUrl}} download="audioFile.wav">download</a>
+      <span class="badge">{{enroll.enrollId}}</span>{{enroll.status}}
+  <button title="enroll this voice sample" (click)="doEnroll(enroll)">Enroll</button>
+  </li>
+</ul> -->
+</div>
+
+<button (click)="ProceedToAuthentication()">Proceed To Authentication</button>
+</div>
+
+<ng-template #accessError>
+  <h3>Hi ! It seems you have not verified the userId</h3>
+  <div id="options" class="grid grid-pad">
+    <a class="col-1-4" routerLink="/user/verify">
+      <div class="module">
+        <h4>Verify User</h4>
+      </div>
+    </a>
+  </div>
+</ng-template>

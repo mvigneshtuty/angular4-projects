@@ -1,0 +1,12 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<app-nav-bar></app-nav-bar>
+
+<div style="text-align:center">
+  <h1 *ngIf="userId =='' && isUserVerified == 'false';">
+    {{title}}
+  </h1>
+  <router-outlet></router-outlet>
+  <app-info-messages></app-info-messages>
+</div>
+
+
