@@ -61,7 +61,7 @@ export class VoiceitService {
             };
             this.userHolder.next(this.getUser);
             this.isUserVerified.next('true');
-            this.router.navigate(['./user/options']);
+            this.router.navigate(['./user/authenticate']);
           }
           else{
             this.infoMsgService.replace(voiceItResp.Result);

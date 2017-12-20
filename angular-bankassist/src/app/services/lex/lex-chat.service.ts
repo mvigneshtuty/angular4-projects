@@ -155,9 +155,21 @@ export class LexChatService {
             userId: 'BlogPostTesting',
             accept: 'audio/mpeg'
           };
+          var cognitoIdentityId = localStorage.getItem('identityId');
+          var authToken = localStorage.getItem('authToken');
+          AWS.config.update({
+              credentials: new AWS.CognitoIdentityCredentials({
+              IdentityPoolId: 'us-east-1:cee7f82c-aac5-4841-b430-1d695035a0be',
+              IdentityId: cognitoIdentityId,
+              Logins: {
+                'cognito-identity.amazonaws.com': authToken
+              }
+            }),
+            region: 'us-east-1' 
+          });
+          
           lexruntime = new LexRuntime({
-            region: 'us-east-1',
-            credentials: new AWS.Credentials(document.getElementById('ACCESS_KEY_ID').value, document.getElementById('SECRET_KEY').value, null)
+            region: 'us-east-1'
           });
           conversation.advanceConversation();
         };

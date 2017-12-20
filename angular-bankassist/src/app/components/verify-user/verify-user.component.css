@@ -1,3 +1,4 @@
+/**
 input, button {
   color: black;
   font-family: Cambria, Georgia;
@@ -11,3 +12,38 @@ label{
 #verify-user{
   padding-top: 1cm;
 }
+
+*/
+
+.ng-valid[required], .ng-valid.required  {
+  border-left: 5px solid #42A948; /* green */
+}
+
+/* red
+.ng-invalid:not(form)  {
+  border-left: 5px solid #a94442;
+}
+*/
+
+.form-control.ng-touched.ng-invalid{
+border: 2px solid red;
+/*border-left: 5px solid red;*/
+}
+
+.form-control.ng-touched.ng-valid{
+border-left: 5px solid #42A948;
+}
+
+#confirmpwd.form-control.ng-touched.confpwd-invalid{
+/*border-left: 5px solid red;*/
+border: 2px solid red;
+}
+.col-centered{
+  float: none;
+  margin: 0 auto;
+}
+
+.row,h1{
+  padding-bottom: 1cm;
+}
+

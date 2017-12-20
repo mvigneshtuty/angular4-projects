@@ -1,5 +1,14 @@
-<div *ngIf="userId !=='' && isUserVerified !== 'false'; else accessError" style="text-align:center">
-<h1>Voice Enrollment</h1>
+<!--<div *ngIf="userId !=='' && isUserVerified !== 'false'; else accessError" style="text-align:center">-->
+<div>
+  <div class="row">
+    <div class="col-lg-3"></div>
+    <div class="col-centered col-lg-3">
+      <h1>Voice Enrollment</h1>
+    </div>
+    <div class="pull-right col-lg-3">
+      <button class="btn-lg btn-primary" (click)="ProceedToAuthentication()">Authenticate With Voice</button>
+    </div>
+  </div>
 
 <p>Make sure you are using a recent version of Google Chrome</p>
 <p>Click on Record button and tell the voice phrase. For example "Hello, Iam very happy today".</p>
@@ -10,10 +19,15 @@
   <canvas id="wavedisplay" width="100" height="100"></canvas>
 </div>
 -->
-<button (click)="startRecording();" [disabled]="isRecording">Record</button>
-<button (click)="stopRecording();" [disabled]="!(isRecording)">Stop</button>
+<div class="row">
+  <div class="col-centered col-lg-3">
+    <button class="btn-lg btn-success" (click)="startRecording();" [disabled]="isRecording">Record</button>
+    <button class="btn-lg btn-danger" (click)="stopRecording();" [disabled]="!(isRecording)">Stop</button>
+  </div>
+</div>
+
 <div *ngIf="ENROLL_SAMPLES.length > 0">
-<h2>Enrollment Details</h2>
+<h2>Enrollment Voice Samples</h2>
 <table class="table table-sm table-bordered">
   <thead class="thead-dark">
     <tr>
@@ -48,8 +62,6 @@
   </li>
 </ul> -->
 </div>
-
-<button (click)="ProceedToAuthentication()">Proceed To Authentication</button>
 </div>
 
 <ng-template #accessError>

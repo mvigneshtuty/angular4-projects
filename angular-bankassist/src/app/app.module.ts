@@ -23,6 +23,7 @@ import { LexAudioRecorderService } from './services/lex/lex-audio-recorder.servi
 import { LexAudioControlService } from './services/lex/lex-audio-control.service';
 import { LexAudioWorkerService } from './services/lex/lex-audio-worker.service';
 import { LexChatService } from './services/lex/lex-chat.service';
+import { NavbarSvc } from './services/navbar.service';
 
 import { AppRoutingModule } from './/app-routing.module';
 import { ChatBotComponent } from './components/chat-bot/chat-bot.component';
@@ -53,7 +54,7 @@ import { ReactFormsComponent } from './components/react-forms/react-forms.compon
   providers: [DynamodbService, CognitoService, VoiceitService, 
     InfomessageService, AudioRecorderService, LexAudioService, 
     LexAudioControlService, LexAudioRecorderService, LexAudioWorkerService, 
-    LexChatService
+    LexChatService, NavbarSvc
    ],
   bootstrap: [AppComponent]
 })

@@ -35,8 +35,8 @@ export class CreateUserComponent implements OnInit {
         password: ['',
           [
             Validators.required,
-            Validators.minLength(8),
-            Validators.pattern(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@#$%^&*()_+]{7,19}$/)
+            Validators.minLength(6),
+            Validators.pattern(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@#$%^&*()_+]{5,19}$/)
           ]
         ],
         confpwd: ['',

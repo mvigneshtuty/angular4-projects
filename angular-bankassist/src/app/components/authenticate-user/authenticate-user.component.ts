@@ -5,6 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { InfomessageService } from '../../services/infomessage.service';
 import { AudioRecorderService } from '../../services/audio-recorder.service';
 import { VoiceitService } from '../../services/voiceit.service';
+import { NavbarSvc } from '../../services/navbar.service';
 import * as AudioRecorder from 'recorder-js';
 
 import { Authentication } from '../../types/authentication';
@@ -33,7 +34,8 @@ export class AuthenticateUserComponent implements OnInit {
     private infoMsgService: InfomessageService,
     private audioRecorderSvc: AudioRecorderService,
     private voiceItSvc: VoiceitService,
-    private domSanitizer: DomSanitizer) { }
+    private domSanitizer: DomSanitizer,
+    private navbarSvc: NavbarSvc) { }
 
   ngOnInit() {
     this.voiceItSvc.currentUser.subscribe(val => {
@@ -41,6 +43,7 @@ export class AuthenticateUserComponent implements OnInit {
       this.userId = val.id;
     });
     this.voiceItSvc.userVerificationStatus.subscribe(val => this.isUserVerified = val);
+    this.infoMsgService.clear();
     this.audioRecorderSvc.initUserMedia();
   }
 
@@ -113,6 +116,10 @@ export class AuthenticateUserComponent implements OnInit {
       authObj.status = 'Success';
       authObj.enrollId = authResponse.EnrollmentID;
       this.infoMsgService.replace('Voice authentication successful using phrase "' + authResponse.DetectedVoiceprintText + '"');
+      console.log('OpenId Token from Cognito: ',authResponse.OpenIdToken);
+      localStorage.setItem('authToken', authResponse.OpenIdToken.Token);
+      localStorage.setItem('identityId', authResponse.OpenIdToken.IdentityId);
+      this.navbarSvc.isAuthenticated.next(true);
       this.redirectToWelcomePage();
     }
     else {
