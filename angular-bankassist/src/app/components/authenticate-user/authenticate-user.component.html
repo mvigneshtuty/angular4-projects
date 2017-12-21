@@ -1,5 +1,6 @@
 <!--<div *ngIf="userId !=='' && isUserVerified !== 'false'; else accessError" style="text-align:center"> -->
-<div>
+<spinner [busy]="isSpinnerLoading" message="authenticating user...">
+  <div>
   <div class="row">
     <div class="col-lg-3"></div>
     <div class="col-centered col-lg-3">
@@ -46,7 +47,7 @@
     </table>
   </div>
 </div>
-
+</spinner>
 <ng-template #accessError>
   <h3>Hi ! It seems you have not verified the userId</h3>
   <div id="options" class="grid grid-pad">

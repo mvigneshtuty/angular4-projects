@@ -44,7 +44,7 @@ export class NavBarComponent implements OnInit, AfterViewInit {
     if(localStorage.getItem('authToken')){
       this.navbarSvc.isAuthenticated.next(false);
       localStorage.removeItem('authToken');
-      localStorage.removeItem('IdentityId');
+      localStorage.removeItem('identityId');
       this.router.navigate(['./home']);
     }
   }

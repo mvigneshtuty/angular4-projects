@@ -29,6 +29,7 @@ export class AuthenticateUserComponent implements OnInit {
   private audioWav: any;
   AUTH_SAMPLES: Authentication[] = [];
   authParams: VoiceItAuthParams;
+  isSpinnerLoading: boolean;
 
   constructor(private router: Router,
     private infoMsgService: InfomessageService,
@@ -90,6 +91,7 @@ export class AuthenticateUserComponent implements OnInit {
   }
 
   authenticateVoiceSample(auth: Authentication) {
+    this.isSpinnerLoading = true;
     if (auth.status === 'Success') {
       this.infoMsgService.replace('Voice sample already used for authentication');
       return;
@@ -102,10 +104,12 @@ export class AuthenticateUserComponent implements OnInit {
     }
     this.voiceItSvc.authUserVoice(this.getAuthParams, (error, response) => {
       if (error) {
+        this.isSpinnerLoading = false;
         auth.status = 'Failed';
         this.infoMsgService.replace(error);
       }
       else {
+        this.isSpinnerLoading = false;
         this.publishAuthResult(auth, response);
       }
     })

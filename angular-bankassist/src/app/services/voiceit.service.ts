@@ -34,9 +34,10 @@ export class VoiceitService {
    * Get the user detail from VoiceIt API
    * @param params voiceIt userId and password
    */
-  getVoiceItUser(params: VoiceItUserParams):void{
+  getVoiceItUser(params: VoiceItUserParams): any{
     var endpointURL = environment.bankassist_api+'/get-user';
     console.log('getting user..', params.userId);
+    return new Promise((resolve, reject) => {
     fetch(endpointURL, {
       method: 'get',
       mode: 'cors',
@@ -52,23 +53,11 @@ export class VoiceitService {
           console.log('JSON response', respified)
           var voiceItResp = JSON.parse(respified.body);
           console.log('ResponseCode', voiceItResp.ResponseCode)
-          if (voiceItResp.ResponseCode == 'SUC'){
-            this.infoMsgService.replace('User validation success');
-            this.setUser = {
-              id: params.userId,
-              name: 'BankAssistUser',
-              password: params.password,
-            };
-            this.userHolder.next(this.getUser);
-            this.isUserVerified.next('true');
-            this.router.navigate(['./user/authenticate']);
-          }
-          else{
-            this.infoMsgService.replace(voiceItResp.Result);
-          }
+          resolve(voiceItResp);
+          
         }).catch(err => {
           console.log('Error parsing the respone as JSON.', err);
-          this.infoMsgService.replace(err);
+          reject(err);
         });
       }
       else {
@@ -76,8 +65,9 @@ export class VoiceitService {
       }
     }).catch(err => {
       console.log('Error invoking API gateway endpoint.', err);
-      this.infoMsgService.replace(err);
+      reject(err);
     })
+  });
   }
 
   /**
@@ -86,47 +76,41 @@ export class VoiceitService {
    * @param params VoiceItUserParams containing userId and password
    *               to create new user.
    */
-  createVoiceItUser(params: VoiceItUserParams): void {
+  createVoiceItUser(params: VoiceItUserParams): any {
     var endpointURL = environment.bankassist_api + '/create-user';
     console.log('creating user..', params.userId);
-    fetch(endpointURL, {
-      method: 'post',
-      mode: 'cors',
-      headers: new Headers({
-        'Accept': 'application/json',
-        'userId': params.userId,
-        'password': params.password
-      })
-    }).then(response => {
-      console.log('response untouched', response);
-      if (response.status === 200) {
-        response.json().then(respified => {
-          console.log('JSON response', respified)
-         // var voiceItResp = JSON.parse(respified.body);
-          var voiceItResp = respified;
-          console.log('ResponseCode', voiceItResp.ResponseCode)
-          if (voiceItResp.ResponseCode == 'SUC') {
-            this.infoMsgService.replace('User creation success');
+    return new Promise((resolve, reject) => {
+      fetch(endpointURL, {
+        method: 'post',
+        mode: 'cors',
+        headers: new Headers({
+          'Accept': 'application/json',
+          'userId': params.userId,
+          'password': params.password
+        })
+      }).then(response => {
+        console.log('response untouched', response);
+        if (response.status === 200) {
+          response.json().then(respified => {
+            console.log('JSON response', respified)
+            // var voiceItResp = JSON.parse(respified.body);
+            var voiceItResp = respified;
+            console.log('ResponseCode', voiceItResp.ResponseCode)
+            resolve(voiceItResp);
+          }).catch(err => {
             
-           // this.userHolder.next(this.getUser);
-          //  this.isUserVerified.next('true');
-            this.router.navigate(['./home']);
-          }
-          else {
-            this.infoMsgService.replace(voiceItResp.Result);
-          }
-        }).catch(err => {
-          console.log('Error parsing the respone as JSON.', err);
-          this.infoMsgService.replace(err);
-        });
-      }
-      else {
-        throw `Invalid response received with status code ${response.status}`;
-      }
-    }).catch(err => {
-      console.log('Error invoking API gateway endpoint.', err);
-      this.infoMsgService.replace(err);
-    })
+            console.log('Error parsing the respone as JSON.', err);
+            reject(err);
+          });
+        }
+        else {
+          throw `Invalid response received with status code ${response.status}`;
+        }
+      }).catch(err => {
+        console.log('Error invoking API gateway endpoint.', err);
+        reject(err);
+      })
+    });
   }
 
   /**

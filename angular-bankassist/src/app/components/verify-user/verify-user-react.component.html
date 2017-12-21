@@ -1,3 +1,4 @@
+<spinner [busy]="isSpinnerLoading" message="verifying user...">
 <div class="container-fluid">
     <h1>User Login</h1>
     <form [formGroup]="verifyUserFormGrp" (ngSubmit)="verifyUser()">
@@ -32,5 +33,8 @@
         </div>
         <button id="back" type="button" class="btn btn-lg" (click)="reset()">Reset</button>
         <button id="submitBtn" type="submit" class="btn btn-success btn-lg" [disabled]="!verifyUserFormGrp.valid">Continue</button>
+        <ngx-loading [show]="loading" [config]="{ backdropBackgroundColour: 'rgba(255,255,255,0.3)', backdropBorderRadius:
+        '10px', primaryColour: '#ffffff', secondaryColour: '#ffffff', tertiaryColour: '#ffffff' }"></ngx-loading>
     </form>
 </div>
+</spinner>

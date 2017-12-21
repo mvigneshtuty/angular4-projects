@@ -149,7 +149,7 @@ export class LexChatService {
         message.textContent = conversation.message;
         initParams.audiocontrol.onclick = function () {
           params = {
-            botAlias: '$LATEST',
+            botAlias: 'Staging',
             botName: 'BankAssist',
             contentType: 'audio/x-l16; sample-rate=16000',
             userId: 'BlogPostTesting',

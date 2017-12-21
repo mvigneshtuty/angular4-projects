@@ -30,3 +30,10 @@ border: 2px solid red;
   padding-bottom: 1cm;
 }
 
+#container {
+    display:flex;
+    flex-direction: row;
+    padding:1em;
+    background-color: white;
+}
+

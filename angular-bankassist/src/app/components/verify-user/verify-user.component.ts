@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
+import { RouterModule, Routes, Router } from '@angular/router';
 
 import { User } from '../../types/user';
 import { VoiceItUser } from '../../types/voiceit.user';
@@ -20,9 +22,12 @@ export class VerifyUserComponent implements OnInit {
     name: '',
     password: ''
   };
+  isSpinnerLoading: boolean;
+
   constructor(private voiceitSvc: VoiceitService, 
     private infoMsgService: InfomessageService,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder,
+    private router: Router) { }
 
   voiceitUser: VoiceItUser = new VoiceItUser(
     null, null, null);
@@ -58,13 +63,32 @@ export class VerifyUserComponent implements OnInit {
    * Verify whether the user is associated with VoiceIt
    */
   verifyUser(): void{
+    this.isSpinnerLoading = true;
     console.log('User Id inputted for verification:', this.user.id);
     this.params = {
       userId: this.voiceitUser.userId,
       password: this.voiceitUser.password
     }
     this.infoMsgService.replace('Verifying the userId..Please wait..');
-   this.voiceitSvc.getVoiceItUser(this.params);
+   this.voiceitSvc.getVoiceItUser(this.params).then(result => {
+     this.isSpinnerLoading = false;
+     if (result.ResponseCode == 'SUC') {
+       this.infoMsgService.replace('User validation success');
+       this.setUser = {
+         id: this.params.userId,
+         name: 'BankAssistUser',
+         password: this.params.password,
+       };
+       this.voiceitSvc.userHolder.next(this.getUser);
+       this.voiceitSvc.isUserVerified.next('true');
+       this.router.navigate(['./user/authenticate']);
+     }
+     else {
+       this.infoMsgService.replace(result.Result);
+     }
+   }).catch(err => {
+     this.infoMsgService.replace(err);
+   });
   }
 
   /** 
@@ -81,5 +105,19 @@ export class VerifyUserComponent implements OnInit {
 
   public get getPassword() {
     return this.verifyUserFormGrp.get('password');
+  }
+
+  /**
+   * Get the user object.
+   */
+  public get getUser() {
+    return this.user;
+  }
+
+  /**
+   * Sets the user object.
+   */
+  public set setUser(value) {
+    this.user = value;
   }
 }

@@ -1,10 +1,13 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 import { RouterModule, Routes, Router } from '@angular/router';
 import { CreateUserValidator } from './createuser.validator';
 import { VoiceItUser } from '../../types/voiceit.user';
 import { VoiceItUserParams } from '../../types/voiceit.user.params';
 import { VoiceitService } from '../../services/voiceit.service';
+import { InfomessageService } from '../../services/infomessage.service';
 
 @Component({
   selector: 'app-create-user',
@@ -18,13 +21,16 @@ export class CreateUserComponent implements OnInit {
                               null,null,null);
   createUserFormGrp : FormGroup;
   params: VoiceItUserParams;
+  isSpinnerLoading: boolean;
 
   constructor(private fb: FormBuilder, 
     private voiceitSvc: VoiceitService,
-    private router: Router
+    private router: Router,
+    private infoMsgService: InfomessageService,
   ) { }
 
   ngOnInit() {
+   // this.spinnerService.hide();
     this.createUserFormGrp = this.fb.group({
       userid: ['', [
         Validators.required,
@@ -69,6 +75,7 @@ public get getPasswordGrp(){
 }
 
   createUser(): void{
+    this.isSpinnerLoading = true;
     console.log(this.voiceitUser.userId);
     console.log(this.voiceitUser.password);
     console.log(this.voiceitUser.confirmPwd);
@@ -76,7 +83,23 @@ public get getPasswordGrp(){
       userId: this.voiceitUser.userId,
       password: this.voiceitUser.password
     }
-    this.voiceitSvc.createVoiceItUser(this.params);
+    this.voiceitSvc.createVoiceItUser(this.params).then(result => {
+      this.isSpinnerLoading = false;
+      if (result.ResponseCode == 'SUC') {
+
+        this.infoMsgService.replace('User creation success');
+
+        // this.userHolder.next(this.getUser);
+        //  this.isUserVerified.next('true');
+        this.router.navigate(['./home']);
+      }
+      else {
+        this.infoMsgService.replace(result.Result);
+      }
+    }).catch(err => {
+      this.isSpinnerLoading = false;
+      this.infoMsgService.replace(err);
+    });
   }
 
   goToHome(): void{

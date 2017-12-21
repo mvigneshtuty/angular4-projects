@@ -1,6 +1,8 @@
+<spinner [busy]="isSpinnerLoading" message="creating user...">
 <div class="container-fluid">
     <h1>New User Details</h1>
-    <form [formGroup] = "createUserFormGrp" (ngSubmit)="createUser()">
+    
+    <form [formGroup] = "createUserFormGrp" (ngSubmit)="createUser()" >      
         <div class="row">
             <div class="col-centered col-lg-3">
                 <input
@@ -57,8 +59,9 @@
                 </div>
             </div>
         </div>
-        </div>
+        </div>       
         <button id="back" type="button" class="btn btn-lg" (click)="goToHome()">Cancel</button>
-        <button id="submitBtn" type="submit" class="btn btn-success btn-lg" [disabled]="!createUserFormGrp.valid">Create User</button>
+        <button id="submitBtn" type="submit" class="btn btn-success btn-lg" [disabled]="!createUserFormGrp.valid">Create User</button>      
     </form>
 </div>
+</spinner>

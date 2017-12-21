@@ -1,7 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PasswordValidatorDirective } from './validators/password.validator';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { LoadingModule } from 'ngx-loading';
 
 import { AppComponent } from './app.component';
 import { UserInfoComponent } from './components/user-info/user-info.component';
@@ -29,6 +33,7 @@ import { AppRoutingModule } from './/app-routing.module';
 import { ChatBotComponent } from './components/chat-bot/chat-bot.component';
 import { CreateUserComponent } from './components/create-user/create-user.component';
 import { ReactFormsComponent } from './components/react-forms/react-forms.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -43,13 +48,18 @@ import { ReactFormsComponent } from './components/react-forms/react-forms.compon
     SafeUrlPipe,
     ChatBotComponent,
     CreateUserComponent,
-    ReactFormsComponent
+    ReactFormsComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatCheckboxModule,
+    MatProgressSpinnerModule,
+    LoadingModule
   ],
   providers: [DynamodbService, CognitoService, VoiceitService, 
     InfomessageService, AudioRecorderService, LexAudioService, 
