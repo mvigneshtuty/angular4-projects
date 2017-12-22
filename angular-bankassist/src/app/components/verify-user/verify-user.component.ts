@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { RouterModule, Routes, Router } from '@angular/router';
@@ -8,6 +8,7 @@ import { VoiceItUser } from '../../types/voiceit.user';
 import { VoiceItUserParams } from '../../types/voiceit.user.params';
 import { VoiceitService } from '../../services/voiceit.service';
 import {InfomessageService} from '../../services/infomessage.service';
+import { SharedService } from '../../services/shared.service';
 
 @Component({
   selector: 'app-verify-user',
@@ -22,12 +23,12 @@ export class VerifyUserComponent implements OnInit {
     name: '',
     password: ''
   };
-  isSpinnerLoading: boolean;
 
   constructor(private voiceitSvc: VoiceitService, 
     private infoMsgService: InfomessageService,
     private fb: FormBuilder,
-    private router: Router) { }
+    private router: Router,
+    private sharedSvc: SharedService) { }
 
   voiceitUser: VoiceItUser = new VoiceItUser(
     null, null, null);
@@ -63,7 +64,9 @@ export class VerifyUserComponent implements OnInit {
    * Verify whether the user is associated with VoiceIt
    */
   verifyUser(): void{
-    this.isSpinnerLoading = true;
+    this.sharedSvc.showLoadingSpinner.next(true);
+    this.sharedSvc.loadingSpinnerMessage.next('Verifying User...');
+    
     console.log('User Id inputted for verification:', this.user.id);
     this.params = {
       userId: this.voiceitUser.userId,
@@ -71,7 +74,7 @@ export class VerifyUserComponent implements OnInit {
     }
     this.infoMsgService.replace('Verifying the userId..Please wait..');
    this.voiceitSvc.getVoiceItUser(this.params).then(result => {
-     this.isSpinnerLoading = false;
+     this.sharedSvc.showLoadingSpinner.next(false);
      if (result.ResponseCode == 'SUC') {
        this.infoMsgService.replace('User validation success');
        this.setUser = {
@@ -87,6 +90,7 @@ export class VerifyUserComponent implements OnInit {
        this.infoMsgService.replace(result.Result);
      }
    }).catch(err => {
+     this.sharedSvc.showLoadingSpinner.next(false);
      this.infoMsgService.replace(err);
    });
   }

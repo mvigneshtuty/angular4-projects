@@ -28,6 +28,7 @@ import { LexAudioControlService } from './services/lex/lex-audio-control.service
 import { LexAudioWorkerService } from './services/lex/lex-audio-worker.service';
 import { LexChatService } from './services/lex/lex-chat.service';
 import { NavbarSvc } from './services/navbar.service';
+import { SharedService } from './services/shared.service';
 
 import { AppRoutingModule } from './/app-routing.module';
 import { ChatBotComponent } from './components/chat-bot/chat-bot.component';
@@ -64,7 +65,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
   providers: [DynamodbService, CognitoService, VoiceitService, 
     InfomessageService, AudioRecorderService, LexAudioService, 
     LexAudioControlService, LexAudioRecorderService, LexAudioWorkerService, 
-    LexChatService, NavbarSvc
+    LexChatService, NavbarSvc, SharedService
    ],
   bootstrap: [AppComponent]
 })

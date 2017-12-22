@@ -6,6 +6,7 @@ import { InfomessageService } from '../../services/infomessage.service';
 import { AudioRecorderService } from '../../services/audio-recorder.service';
 import { VoiceitService } from '../../services/voiceit.service';
 import { NavbarSvc } from '../../services/navbar.service';
+import { SharedService } from '../../services/shared.service';
 import * as AudioRecorder from 'recorder-js';
 
 import { Authentication } from '../../types/authentication';
@@ -36,7 +37,8 @@ export class AuthenticateUserComponent implements OnInit {
     private audioRecorderSvc: AudioRecorderService,
     private voiceItSvc: VoiceitService,
     private domSanitizer: DomSanitizer,
-    private navbarSvc: NavbarSvc) { }
+    private navbarSvc: NavbarSvc,
+    private sharedSvc: SharedService) { }
 
   ngOnInit() {
     this.voiceItSvc.currentUser.subscribe(val => {
@@ -91,7 +93,9 @@ export class AuthenticateUserComponent implements OnInit {
   }
 
   authenticateVoiceSample(auth: Authentication) {
-    this.isSpinnerLoading = true;
+   // this.isSpinnerLoading = true;
+    this.sharedSvc.showLoadingSpinner.next(true);
+    this.sharedSvc.loadingSpinnerMessage.next('Authenticating User...');
     if (auth.status === 'Success') {
       this.infoMsgService.replace('Voice sample already used for authentication');
       return;
@@ -103,13 +107,12 @@ export class AuthenticateUserComponent implements OnInit {
       audioWav: auth.audioWav
     }
     this.voiceItSvc.authUserVoice(this.getAuthParams, (error, response) => {
+      this.sharedSvc.showLoadingSpinner.next(false);
       if (error) {
-        this.isSpinnerLoading = false;
         auth.status = 'Failed';
         this.infoMsgService.replace(error);
       }
       else {
-        this.isSpinnerLoading = false;
         this.publishAuthResult(auth, response);
       }
     })

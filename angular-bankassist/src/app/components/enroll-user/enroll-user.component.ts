@@ -5,6 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { InfomessageService } from '../../services/infomessage.service';
 import { AudioRecorderService } from '../../services/audio-recorder.service';
 import { VoiceitService } from '../../services/voiceit.service';
+import { SharedService } from '../../services/shared.service';
 import * as AudioRecorder from 'recorder-js';
 
 import {Enrollment} from '../../types/enrollment';
@@ -42,7 +43,8 @@ export class EnrollUserComponent implements OnInit{
       private audioRecorderSvc: AudioRecorderService,
       private _ngZone: NgZone,
       private voiceItSvc: VoiceitService,
-      private domSanitizer: DomSanitizer ) { }
+      private domSanitizer: DomSanitizer,
+      private sharedSvc: SharedService ) { }
 
   ngOnInit() {
     this.voiceItSvc.currentUser.subscribe(val => {
@@ -110,6 +112,8 @@ export class EnrollUserComponent implements OnInit{
 }
 
   enrollVoiceSample(enroll : Enrollment) {
+    this.sharedSvc.showLoadingSpinner.next(true);
+    this.sharedSvc.loadingSpinnerMessage.next('Enrolling User...');
     console.log('wav from UI component:',enroll.audioWav);
     if (enroll.status === 'Success'){
       this.infoMsgService.replace('Voice sample already enrolled');
@@ -122,6 +126,7 @@ export class EnrollUserComponent implements OnInit{
       audioWav: enroll.audioWav
     }
     this.voiceItSvc.enrollUserVoice(this.getEnrollParams, (error,response) => {
+      this.sharedSvc.showLoadingSpinner.next(false);
       if(error){
         enroll.status = 'Failed';
         this.infoMsgService.replace(error);
