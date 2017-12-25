@@ -1,0 +1,78 @@
+<div class="container-fluid">
+  <div *ngIf="!formSubmitted || userCreationFailed">
+    <h1>New User Details</h1>
+    
+    <form [formGroup] = "createUserFormGrp" (ngSubmit)="createUser()" >      
+        <div class="row">
+            <div class="col-centered col-lg-3">
+                <input
+                    id="userid"
+                    type="text"
+                    formControlName="userid"
+                    [(ngModel)]="newUser.userId"
+                    class="form-control form-control-lg input" 
+                    placeholder="User ID">
+                <div *ngIf="getUserId.touched && getUserId.invalid" class="alert alert-danger">
+                    <div *ngIf="getUserId.errors.required">User ID is required</div>
+                    <div *ngIf="getUserId.errors.minlength">User ID should be minimum {{getUserId.errors.minlength.requiredLength}} characters</div>
+                    <div *ngIf="getUserId.errors.pattern">User ID can contain only alpha numeric characters [a-zA-Z0-9]</div>
+                </div> 
+            </div>
+        </div>
+        <div formGroupName="passwordgrp">
+        <div class="row">
+            <div class="col-centered col-lg-3">
+                <input 
+                    id="password" 
+                    type="password"
+                    formControlName="password"
+                    [(ngModel)]="newUser.password"
+                    class="form-control form-control-lg input" 
+                    placeholder="Password">
+                <div *ngIf="getPassword.touched && getPassword.invalid" class="alert alert-danger">
+                    <div *ngIf="getPassword.errors.required">Password is required</div>
+                    <div *ngIf="getPassword.errors.minlength">Password should be minimum {{getPassword.errors.minlength.requiredLength}} characters</div>
+                    <div *ngIf="getPassword.errors.pattern">
+                        <div>
+                           Password should contain atleast one special character and number
+                        </div>
+                        <div>
+                           Password should not start with special character or number
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-centered col-lg-3">
+                <input 
+                    id="confirmpwd" 
+                    type="password"
+                    formControlName="confpwd"
+                    [(ngModel)]="newUser.confirmPwd"
+                    class="form-control form-control-lg input"
+                    [ngClass]="getPasswordGrp.errors?.mismatch ? 'confpwd-invalid': 'confpwd-valid'"
+                    placeholder="Confirm Password">
+                <div *ngIf="getConfPwd.touched && getPasswordGrp.errors?.mismatch" class="alert alert-danger">
+                    <div *ngIf="getPasswordGrp.errors?.mismatch">Confirm password didn't match</div>
+                </div>
+            </div>
+        </div>
+        </div>       
+        <button id="reset" type="button" class="btn btn-default btn-lg" (click)="reset()">Reset</button>
+        <button id="submitBtn" type="submit" class="btn btn-primary btn-lg" [disabled]="!createUserFormGrp.valid">Create User</button>      
+    </form>
+  </div>
+    
+    <div *ngIf="formSubmitted && userCreationFailed" class="alert alert-danger col-centered col-lg-4">
+      <strong>Error!</strong> {{alertMessage}}
+    </div>
+    <div *ngIf="formSubmitted && !userCreationFailed">
+      <div class="alert alert-success col-centered col-lg-4">
+        <strong>Success!</strong> {{alertMessage}}
+      </div>
+      <div class="btn-newuser">
+        <button id="newUserBtn" class="btn btn-primary btn-lg" (click)="createAnotherUser()">Create Another User</button>
+      </div>
+    </div>
+</div>

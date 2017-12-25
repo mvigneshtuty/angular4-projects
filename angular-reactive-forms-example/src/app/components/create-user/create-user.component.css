@@ -1,0 +1,35 @@
+.form-control.ng-touched.ng-invalid{
+border: 2px solid red;
+}
+
+#confirmpwd.form-control.ng-touched.confpwd-invalid{
+border: 2px solid red;
+}
+
+.form-control.ng-touched.ng-valid{
+border-left: 5px solid #42A948;
+}
+
+.col-centered{
+  float: none;
+  margin: 0 auto;
+}
+
+.row,h1,form{
+  padding-bottom: 1cm;
+}
+
+.btn-newuser{
+    padding-top: 50pt;
+}
+
+.input{
+    height:50px;
+}
+
+#container {
+    display:flex;
+    flex-direction: row;
+    padding:1em;
+    background-color: white;
+}
